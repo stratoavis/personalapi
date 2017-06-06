@@ -1,0 +1,17 @@
+{
+  "name": "myapp2",
+  "version": "1.0.0",
+  "description": "API Testing",
+  "main": "index.js",
+  "scripts": {
+    "test": "jasmine",
+    "start": "node server.js"
+  },
+  "author": "Strato",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "mysql": "^2.13.0"
+  }
+}

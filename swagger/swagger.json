@@ -1,0 +1,389 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"title": "Groceries and Chores App API",
+		"version": "1.0",
+		"description": "This is an API endpoint doc to help structure and test JSON response data for chores and groceries"
+	},
+	"host": "node-server-stratoavis884576.codeanyapp.com",
+	"basePath": "/api",
+	"schemes": ["https"],
+	"paths": {
+		"/chores": {
+			"get": {
+				"description": "Returns all chores from the system that have been entered in",
+				"produces": ["application/json"],
+				"responses": {
+					"200": {
+						"description": "A collection of chores",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/chore"
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"description": "Adds a new chore into the database",
+				"consumes": ["application/x-www-form-urlencoded"],
+				"produces": ["text/html"],
+				"parameters": [{
+					"name": "choreName",
+					"in": "formData",
+					"description": "Name of the chore to add",
+					"required": true,
+					"type": "string"
+				}, {
+					"name": "assigned",
+					"in": "formData",
+					"description": "Name of the person it will be assigned to",
+					"required": true,
+					"type": "string"
+				}, {
+					"name": "recurrence",
+					"in": "formData",
+					"description": "How often does the chore need to be done?",
+					"required": true,
+					"type": "string"
+				}, {
+					"name": "complete",
+					"in": "formData",
+					"description": "Indicate if the chore is done or not (ideally, this should be false initially)",
+					"required": true,
+					"type": "boolean"
+				}],
+				"responses": {
+					"200": {
+						"description": "Successfully added the chore",
+						"schema": {
+							"type": "string"
+						}
+					}
+				}
+			},
+			"put": {
+				"description": "Resets all chores to be incomplete (primarily used during the following week after all necessary chores are finished",
+				"produces": ["text/html"],
+				"responses": {
+					"200": {
+						"description": "Successfully reset all chores to not completed",
+						"schema": {
+							"type": "string"
+						}
+					}
+				}
+			}
+		},
+		"/chores/{id}": {
+			"get": {
+				"description": "Returns a single chore object",
+				"produces": ["application/json"],
+				"parameters": [{
+					"name": "id",
+					"in": "path",
+					"description": "ID of a single chore object",
+					"required": true,
+					"type": "string"
+				}],
+				"responses": {
+					"200": {
+						"description": "Chore successfully found",
+						"schema": {
+							"$ref": "#/definitions/chore"
+						}
+					},
+					"404": {
+						"description": "Couldn't find a chore with the specified ID",
+						"schema": {
+							"type": "string"
+						}
+					}
+				}
+			},
+			"put": {
+				"description": "Updates a single chore based on the ID",
+				"consumes": ["application/x-www-form-urlencoded"],
+				"produces": ["text/html"],
+				"parameters": [{
+					"name": "id",
+					"in": "path",
+					"description": "ID of the chore object",
+					"required": true,
+					"type": "integer"
+				}, {
+					"name": "choreName",
+					"in": "formData",
+					"description": "The new name of the chore that will be updated",
+					"required": true,
+					"type": "string"
+				}, {
+					"name": "assigned",
+					"in": "formData",
+					"description": "The person who will be updated to work on said chore",
+					"required": true,
+					"type": "string"
+				}, {
+					"name": "recurrence",
+					"in": "formData",
+					"description": "How often does the chore need to be done?",
+					"required": true,
+					"type": "string"
+				}, {
+					"name": "complete",
+					"in": "formData",
+					"description": "Updating the chore to either complete, or incomplete",
+					"required": true,
+					"type": "boolean"
+				}],
+				"responses": {
+					"200": {
+						"description": "Successfully updated the chore",
+						"schema": {
+							"type": "string"
+						}
+					},
+					"404": {
+						"description": "Couldn't update the chore based on the specified ID",
+						"schema": {
+							"type": "string"
+						}
+					}
+				}
+			},
+			"delete": {
+				"description": "Removes a single chore based on the provided ID",
+				"produces": ["text/html"],
+				"parameters": [{
+					"name": "id",
+					"in": "path",
+					"description": "ID of a single chore object",
+					"required": true,
+					"type": "string"
+				}],
+				"responses": {
+					"200": {
+						"description": "Chore successfully removed",
+						"schema": {
+							"type": "string"
+						}
+					},
+					"404": {
+						"description": "Couldn't update a chore based on the specified ID",
+						"schema": {
+							"type": "string"
+						}
+					}
+				}
+			}
+		},
+		"/groceries": {
+			"get": {
+				"description": "Returns all groceries entered into the system",
+				"produces": ["application/json"],
+				"responses": {
+					"200": {
+						"description": "A collection of groceries",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/grocery"
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"description": "Adds a new grocery item to the database",
+				"consumes": ["application/x-www-form-urlencoded"],
+				"produces": ["text/html"],
+				"parameters": [{
+					"name": "groceryName",
+					"in": "formData",
+					"description": "Name of the grocery item to add",
+					"required": true,
+					"type": "string"
+				}, {
+					"name": "quantity",
+					"in": "formData",
+					"description": "How much of that item is needed",
+					"required": true,
+					"type": "integer"
+				}, {
+					"name": "location",
+					"in": "formData",
+					"description": "The location of where this item is located (store specific)",
+					"required": true,
+					"type": "string"
+				}],
+				"responses": {
+					"200": {
+						"description": "Successfully added a new grocery item",
+						"schema": {
+							"type": "string"
+						}
+					}
+				}
+			},
+			"delete": {
+				"description": "Clears all entries from the current grocery list",
+				"produces": ["text/html"],
+				"responses": {
+					"200": {
+						"description": "Successfully cleared the grocery list",
+						"schema": {
+							"type": "string"
+						}
+					}
+				}
+			}
+		},
+		"/groceries/{id}": {
+			"get": {
+				"description": "Returns a single grocery item",
+				"produces": ["application/json"],
+				"parameters": [{
+					"name": "id",
+					"in": "path",
+					"description": "ID of a grocery object",
+					"required": true,
+					"type": "string"
+				}],
+				"responses": {
+					"200": {
+						"description": "Grocery item successfully found",
+						"schema": {
+							"$ref": "#/definitions/grocery"
+						}
+					},
+					"404": {
+						"description": "Unable to find grocery item with the specified ID",
+						"schema": {
+							"type": "string"
+						}
+					}
+				}
+			},
+			"put": {
+				"description": "Updates a single grocery item",
+				"consumes": ["application/x-www-form-urlencoded"],
+				"produces": ["text/html"],
+				"parameters": [{
+					"name": "id",
+					"in": "path",
+					"description": "ID of a grocery object",
+					"required": true,
+					"type": "string"
+				}, {
+					"name": "groceryName",
+					"in": "formData",
+					"description": "The name of the grocery item to update",
+					"required": true,
+					"type": "string"
+				}, {
+					"name": "quantity",
+					"in": "formData",
+					"description": "The new quantity of said item",
+					"required": true,
+					"type": "integer"
+				}, {
+					"name": "location",
+					"in": "formData",
+					"description": "The updated location of where to get said item",
+					"required": true,
+					"type": "string"
+				}],
+				"responses": {
+					"200": {
+						"description": "Successfully updated the requested grocery item",
+						"schema": {
+							"type": "string"
+						}
+					},
+					"404": {
+						"description": "Couldn't find a grocery item with that ID",
+						"schema": {
+							"type": "string"
+						}
+					}
+				}
+			},
+			"delete": {
+				"description": "Removes a single grocery item",
+				"produces": ["text/html"],
+				"parameters": [{
+					"name": "id",
+					"in": "path",
+					"description": "ID of a grocery object",
+					"required": true,
+					"type": "string"
+				}],
+				"responses": {
+					"200": {
+						"description": "Grocery item successfully removed",
+						"schema": {
+							"type": "string"
+						}
+					},
+					"404": {
+						"description": "Couldn't find the specified grocery item to remove",
+						"schema": {
+							"type": "string"
+						}
+					}
+				}
+			}
+		}
+	},
+	"definitions": {
+		"chore": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "integer",
+					"description": "ID of the chore"
+				},
+				"choreName": {
+					"type": "string",
+					"description": "The name of the chore"
+				},
+				"assigned": {
+					"type": "string",
+					"description": "Whom is the chore assigned to?"
+				},
+				"recurrence": {
+					"type": "string",
+					"description": "How often does the chore need to be finished",
+					"enum": ["weekly", "biweekly", "monthly"]
+				},
+				"complete": {
+					"type": "boolean",
+					"description": "Is the chore done or not?"
+				}
+			}
+		},
+		"grocery": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "integer",
+					"description": "The ID of the grocery item"
+				},
+				"groceryName": {
+					"type": "string",
+					"description": "The name of the item to buy"
+				},
+				"quantity": {
+					"type": "integer",
+					"description": "How much of said item do we need"
+				},
+				"location": {
+					"type": "string",
+					"description": "Where can we get this item",
+					"enum": ["Costco", "Publix", "WalMart", "Gas Station", "Total Wine", "Petsmart or Vet"]
+				}
+			}
+		}
+	}
+}
